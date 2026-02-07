@@ -1,12 +1,33 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { useEffect, useState } from 'react'
 
 interface LightStreaksProps {
   color: string
 }
 
+interface Particle {
+  left: number
+  top: number
+  duration: number
+  delay: number
+}
+
 export default function LightStreaks({ color }: LightStreaksProps) {
+  const [particles, setParticles] = useState<Particle[]>([])
+
+  useEffect(() => {
+    setParticles(
+      Array.from({ length: 5 }).map(() => ({
+        left: Math.random() * 100,
+        top: Math.random() * 100,
+        duration: 3 + Math.random() * 2,
+        delay: Math.random() * 2,
+      }))
+    )
+  }, [])
+
   return (
     <div className="fixed inset-0 pointer-events-none overflow-hidden">
       {/* Horizontal Streaks */}
@@ -20,9 +41,7 @@ export default function LightStreaks({ color }: LightStreaksProps) {
             width: '200%',
             left: '-100%',
           }}
-          animate={{
-            x: ['0%', '100%'],
-          }}
+          animate={{ x: ['0%', '100%'] }}
           transition={{
             duration: 3 + i,
             repeat: Infinity,
@@ -43,9 +62,7 @@ export default function LightStreaks({ color }: LightStreaksProps) {
             height: '200%',
             top: '-100%',
           }}
-          animate={{
-            y: ['0%', '100%'],
-          }}
+          animate={{ y: ['0%', '100%'] }}
           transition={{
             duration: 4 + i,
             repeat: Infinity,
@@ -80,14 +97,14 @@ export default function LightStreaks({ color }: LightStreaksProps) {
       ))}
 
       {/* Floating Particles */}
-      {[...Array(5)].map((_, i) => (
+      {particles.map((p, i) => (
         <motion.div
           key={`p-${i}`}
           className="absolute w-1 h-1 rounded-full opacity-40"
           style={{
             backgroundColor: color,
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
+            left: `${p.left}%`,
+            top: `${p.top}%`,
           }}
           animate={{
             y: [-20, 20, -20],
@@ -95,10 +112,10 @@ export default function LightStreaks({ color }: LightStreaksProps) {
             opacity: [0.4, 0.8, 0.4],
           }}
           transition={{
-            duration: 3 + Math.random() * 2,
+            duration: p.duration,
             repeat: Infinity,
             ease: 'easeInOut',
-            delay: Math.random() * 2,
+            delay: p.delay,
           }}
         />
       ))}
