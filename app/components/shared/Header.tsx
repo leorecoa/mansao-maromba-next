@@ -6,7 +6,11 @@ import { useCart } from '@/app/contexts/CartContext'
 import { NAVIGATION } from '@/app/lib/constants'
 import Image from 'next/image'
 
-export default function Header() {
+interface HeaderProps {
+  onCartOpen?: () => void
+}
+
+export default function Header({ onCartOpen }: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const { itemCount } = useCart()
 
@@ -33,7 +37,7 @@ export default function Header() {
             </a>
           </div>
 
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="hidden md:flex items-center space-x-8" role="navigation" aria-label="Navegação principal">
             {NAVIGATION.map((item) => (
               <a
                 key={item.name}
@@ -46,10 +50,17 @@ export default function Header() {
           </nav>
 
           <div className="flex items-center space-x-4">
-            <button className="relative p-2 text-white hover:text-primary transition-colors">
-              <ShoppingCart className="w-6 h-6" />
+            <button 
+              onClick={onCartOpen}
+              className="relative p-2 text-white hover:text-primary transition-colors"
+              aria-label="Abrir carrinho de compras"
+            >
+              <ShoppingCart className="w-6 h-6" aria-hidden="true" />
               {itemCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                <span 
+                  className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold"
+                  aria-label={`${itemCount} itens no carrinho`}
+                >
                   {itemCount}
                 </span>
               )}
@@ -58,15 +69,17 @@ export default function Header() {
             <button
               className="md:hidden p-2 text-white"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label={isMenuOpen ? 'Fechar menu' : 'Abrir menu'}
+              aria-expanded={isMenuOpen}
             >
-              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {isMenuOpen ? <X className="w-6 h-6" aria-hidden="true" /> : <Menu className="w-6 h-6" aria-hidden="true" />}
             </button>
           </div>
         </div>
 
         {isMenuOpen && (
           <div className="md:hidden py-4 border-t border-white/10">
-            <nav className="flex flex-col space-y-4">
+            <nav className="flex flex-col space-y-4" role="navigation" aria-label="Menu mobile">
               {NAVIGATION.map((item) => (
                 <a
                   key={item.name}

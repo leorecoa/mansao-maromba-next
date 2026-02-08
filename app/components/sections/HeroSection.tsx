@@ -13,6 +13,7 @@ import {
 import { PRODUCTS } from '@/app/data/products'
 import type { Product } from '@/app/types'
 import { useCart } from '@/app/contexts/CartContext'
+import ImageSkeleton from '@/app/components/ui/ImageSkeleton'
 
 interface HeroSectionProps {
   activeProduct: Product
@@ -32,6 +33,7 @@ export default function HeroSection({
   const [isTransitioning, setIsTransitioning] = useState(false)
   const [showFlash, setShowFlash] = useState(false)
   const [scrollY, setScrollY] = useState(0)
+  const [imageLoaded, setImageLoaded] = useState(false)
 
   const prevIndexRef = useRef(activeIndex)
 
@@ -60,6 +62,7 @@ export default function HeroSection({
     prevIndexRef.current = activeIndex
     setIsTransitioning(true)
     setShowFlash(true)
+    setImageLoaded(false)
     setActiveIndex(index)
     onProductChange(PRODUCTS[index])
 
@@ -78,7 +81,7 @@ export default function HeroSection({
   const product = PRODUCTS[activeIndex]
 
   return (
-    <section className="relative min-h-screen overflow-hidden bg-gradient-to-b from-black via-gray-950 to-black flex items-center justify-center">
+    <section className="relative min-h-screen overflow-hidden bg-gradient-to-b from-black via-gray-950 to-black flex items-center justify-center pt-20 pb-12">
 
       {/* TEXTO GIGANTE FUNDO */}
       <div
@@ -88,7 +91,7 @@ export default function HeroSection({
         }}
       >
         <h2
-          className="text-[25vw] font-black tracking-[-0.05em] uppercase"
+          className="text-[20vw] md:text-[25vw] font-black tracking-[-0.05em] uppercase"
           style={{
             color: product.theme.primary,
             filter: `blur(${isTransitioning ? 12 : 3}px)`,
@@ -110,23 +113,23 @@ export default function HeroSection({
         />
       )}
 
-      <div className="relative z-10 w-full max-w-[1600px] px-6 grid lg:grid-cols-2 gap-16 items-center">
+      <div className="relative z-10 w-full max-w-[1600px] px-4 md:px-6 grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
 
         {/* TEXTO */}
-        <div className="space-y-8">
+        <div className="space-y-6 md:space-y-8 text-center lg:text-left">
           <motion.div
             key={`badge-${product.id}`}
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.4 }}
-            className="inline-flex items-center gap-3 px-6 py-3 rounded-full border border-white/10 backdrop-blur-xl"
+            className="inline-flex items-center gap-2 md:gap-3 px-4 md:px-6 py-2 md:py-3 rounded-full border border-white/10 backdrop-blur-xl"
             style={{
               backgroundColor: 'rgba(0,0,0,0.3)',
               color: product.theme.primary,
             }}
           >
-            <Crown size={18} style={{ filter: `drop-shadow(0 0 6px ${product.theme.primary})` }} />
-            <span className="text-xs font-bold tracking-[0.3em] uppercase">VIBE MANSÃO MAROMBA</span>
+            <Crown size={16} className="md:w-[18px] md:h-[18px]" style={{ filter: `drop-shadow(0 0 6px ${product.theme.primary})` }} />
+            <span className="text-[10px] md:text-xs font-bold tracking-[0.2em] md:tracking-[0.3em] uppercase">VIBE MANSÃO MAROMBA</span>
           </motion.div>
 
           <AnimatePresence mode="wait">
@@ -136,7 +139,7 @@ export default function HeroSection({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.5 }}
-              className="text-6xl md:text-[8rem] lg:text-[9rem] font-black leading-[0.85] tracking-[-0.03em]"
+              className="text-5xl md:text-7xl lg:text-[8rem] xl:text-[9rem] font-black leading-[0.85] tracking-[-0.03em]"
             >
               {product.name.split(' ').map((word, i) => (
                 <span
@@ -153,48 +156,49 @@ export default function HeroSection({
             </motion.h1>
           </AnimatePresence>
 
-          <p className="text-xl md:text-2xl max-w-xl text-gray-400 leading-relaxed border-l-4 pl-6"
+          <p className="text-base md:text-xl lg:text-2xl max-w-xl mx-auto lg:mx-0 text-gray-400 leading-relaxed border-l-4 pl-4 md:pl-6"
             style={{ borderColor: product.theme.primary }}
           >
             {product.description}
           </p>
 
-          <div className="flex flex-wrap items-center gap-6 pt-4">
+          <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center lg:justify-start gap-4 md:gap-6 pt-4">
             <button
               onClick={() => addItem(product)}
-              className="px-12 py-6 rounded-2xl font-black text-base uppercase tracking-wide text-black transition-all duration-300 hover:scale-105 active:scale-95"
+              className="w-full sm:w-auto px-8 md:px-12 py-4 md:py-6 rounded-2xl font-black text-sm md:text-base uppercase tracking-wide text-black transition-all duration-300 hover:scale-105 active:scale-95"
               style={{
                 background: product.theme.primary,
                 boxShadow: `0 10px 40px ${product.theme.primary}50`,
               }}
+              aria-label={`Adicionar ${product.name} ao carrinho`}
             >
               GARANTIR COMBO
             </button>
 
-            <div className="flex items-center gap-3 text-sm font-bold text-white/70">
-              <Zap size={20} className="text-yellow-400" />
+            <div className="flex items-center gap-2 md:gap-3 text-xs md:text-sm font-bold text-white/70">
+              <Zap size={18} className="md:w-5 md:h-5 text-yellow-400" />
               Entrega Relâmpago
             </div>
           </div>
 
-          <div className="flex items-center gap-12 pt-6">
+          <div className="flex items-center justify-center lg:justify-start gap-8 md:gap-12 pt-6">
             <div>
-              <div className="text-4xl font-black" style={{ color: product.theme.primary, textShadow: `0 0 20px ${product.theme.primary}60` }}>
+              <div className="text-3xl md:text-4xl font-black" style={{ color: product.theme.primary, textShadow: `0 0 20px ${product.theme.primary}60` }}>
                 {product.volume}
               </div>
-              <div className="text-xs text-gray-500 uppercase tracking-wider mt-1">Volume</div>
+              <div className="text-[10px] md:text-xs text-gray-500 uppercase tracking-wider mt-1">Volume</div>
             </div>
             <div>
-              <div className="text-4xl font-black" style={{ color: product.theme.primary, textShadow: `0 0 20px ${product.theme.primary}60` }}>
+              <div className="text-3xl md:text-4xl font-black" style={{ color: product.theme.primary, textShadow: `0 0 20px ${product.theme.primary}60` }}>
                 R$ {product.price.toFixed(2)}
               </div>
-              <div className="text-xs text-gray-500 uppercase tracking-wider mt-1">Preço</div>
+              <div className="text-[10px] md:text-xs text-gray-500 uppercase tracking-wider mt-1">Preço</div>
             </div>
           </div>
         </div>
 
         {/* GARRAFAS 3D */}
-        <div className="relative h-[800px] lg:h-[850px] flex items-center justify-center" style={{ perspective: '1400px' }}>
+        <div className="relative h-[500px] md:h-[700px] lg:h-[850px] flex items-center justify-center" style={{ perspective: '1400px' }}>
 
           {/* SILHUETA DA PRÓXIMA (PRÉ-CARREGADA, INVISÍVEL) */}
           <motion.div
@@ -272,17 +276,23 @@ export default function HeroSection({
                   duration: 3,
                   ease: 'easeInOut',
                 }}
+                className="relative"
               >
+                {!imageLoaded && <ImageSkeleton />}
                 <Image
                   src={product.image}
-                  alt={product.name}
+                  alt={`${product.name} - Garrafa principal`}
                   width={700}
                   height={900}
                   priority
                   className="object-contain"
                   style={{
                     filter: `drop-shadow(0 0 50px ${product.theme.primary}80) drop-shadow(0 0 80px ${product.theme.primary}50) brightness(1.15) contrast(1.08) saturate(1.1)`,
+                    opacity: imageLoaded ? 1 : 0,
                   }}
+                  onLoad={() => setImageLoaded(true)}
+                  quality={90}
+                  sizes="(max-width: 768px) 80vw, 50vw"
                 />
               </motion.div>
 
@@ -309,8 +319,9 @@ export default function HeroSection({
                 backgroundColor: 'rgba(0,0,0,0.4)',
                 boxShadow: `0 0 20px ${product.theme.primary}30`,
               }}
+              aria-label="Produto anterior"
             >
-              <ChevronLeft size={36} style={{ color: product.theme.primary }} />
+              <ChevronLeft size={36} style={{ color: product.theme.primary }} aria-hidden="true" />
             </button>
             <button
               onClick={next}
@@ -320,8 +331,9 @@ export default function HeroSection({
                 backgroundColor: 'rgba(0,0,0,0.4)',
                 boxShadow: `0 0 20px ${product.theme.primary}30`,
               }}
+              aria-label="Próximo produto"
             >
-              <ChevronRight size={36} style={{ color: product.theme.primary }} />
+              <ChevronRight size={36} style={{ color: product.theme.primary }} aria-hidden="true" />
             </button>
           </div>
         </div>

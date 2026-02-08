@@ -1,25 +1,33 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import dynamic from 'next/dynamic'
 
 // Sections
 import HeroSection from '@/app/components/sections/HeroSection'
-import ProductsSection from '@/app/components/sections/ProductsSection'
-import AboutSection from '@/app/components/sections/AboutSection'
-import LocationSection from '@/app/components/sections/LocationSection'
-import ReviewsSection from '@/app/components/sections/ReviewsSection'
+
+// Lazy load sections
+const ProductsSection = dynamic(() => import('@/app/components/sections/ProductsSection'), {
+  loading: () => <div className="py-32 flex items-center justify-center"><div className="animate-spin w-8 h-8 border-2 border-yellow-400 border-t-transparent rounded-full" /></div>
+})
+const AboutSection = dynamic(() => import('@/app/components/sections/AboutSection'))
+const LocationSection = dynamic(() => import('@/app/components/sections/LocationSection'))
+const ReviewsSection = dynamic(() => import('@/app/components/sections/ReviewsSection'))
 
 // Shared / UI
+import Header from '@/app/components/shared/Header'
 import CartModal from '@/app/components/shared/CartModal'
 import LightStreaks from '@/app/components/animations/LightStreaks'
 import Footer from '@/app/components/layout/Footer'
 
 // Contexts & Data
 import { useTheme } from '@/app/contexts/ThemeContext'
+import { useCart } from '@/app/contexts/CartContext'
 import { PRODUCTS } from '@/app/data/products'
 
 export default function Home() {
   const { setTheme } = useTheme()
+  const { itemCount } = useCart()
 
   const [activeProduct, setActiveProduct] = useState(() => PRODUCTS[0])
   const [isCartOpen, setIsCartOpen] = useState(false)
@@ -91,6 +99,9 @@ export default function Home() {
         />
       </div>
 
+      {/* Header */}
+      <Header onCartOpen={() => setIsCartOpen(true)} />
+
       {/* Efeitos visuais */}
       <LightStreaks color={activeProduct.theme.primary} />
 
@@ -138,28 +149,53 @@ export default function Home() {
       {!isCartOpen && (
         <button
           onClick={() => setIsCartOpen(true)}
-          className="fixed bottom-6 right-6 z-50 p-4 rounded-full backdrop-blur-xl border border-white/10 hover:scale-110 transition-all duration-300 shadow-2xl"
-          style={{
-            backgroundColor: activeProduct.theme.primary,
-            boxShadow: `0 10px 40px ${activeProduct.theme.glow}60`,
-          }}
+          className="fixed bottom-6 right-6 md:bottom-8 md:right-8 z-50 group"
+          aria-label={`Abrir carrinho${itemCount > 0 ? ` com ${itemCount} ${itemCount === 1 ? 'item' : 'itens'}` : ''}`}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="text-black"
+          <div 
+            className="relative p-4 md:p-5 rounded-xl md:rounded-2xl backdrop-blur-2xl border transition-all duration-500 hover:scale-110 active:scale-95"
+            style={{
+              backgroundColor: activeProduct.theme.primary,
+              borderColor: activeProduct.theme.primary,
+              boxShadow: `0 20px 60px ${activeProduct.theme.glow}70, 0 0 0 1px ${activeProduct.theme.primary}20`,
+            }}
           >
-            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
-            <line x1="3" y1="6" x2="21" y2="6" />
-            <path d="M16 10a4 4 0 0 1-8 0" />
-          </svg>
+            {/* Glow effect */}
+            <div 
+              className="absolute inset-0 rounded-xl md:rounded-2xl blur-xl opacity-50 group-hover:opacity-70 transition-opacity"
+              style={{ backgroundColor: activeProduct.theme.primary }}
+            />
+            
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="text-black relative z-10 md:w-7 md:h-7"
+              aria-hidden="true"
+            >
+              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+              <line x1="3" y1="6" x2="21" y2="6" />
+              <path d="M16 10a4 4 0 0 1-8 0" />
+            </svg>
+            
+            {itemCount > 0 && (
+              <span 
+                className="absolute -top-1.5 -right-1.5 md:-top-2 md:-right-2 min-w-[24px] md:min-w-[28px] h-6 md:h-7 px-1.5 md:px-2 rounded-full flex items-center justify-center text-[10px] md:text-xs font-black text-white shadow-2xl animate-pulse border-2 border-black/20"
+                style={{ 
+                  backgroundColor: '#ef4444',
+                  boxShadow: '0 4px 20px #ef444480'
+                }}
+              >
+                {itemCount}
+              </span>
+            )}
+          </div>
         </button>
       )}
     </>

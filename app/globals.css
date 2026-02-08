@@ -41,3 +41,26 @@ body {
   color: #fff;
   font-family: 'Inter', sans-serif;
 }
+
+/* Focus visible para acessibilidade */
+*:focus-visible {
+  outline: 2px solid #facc15;
+  outline-offset: 2px;
+}
+
+/* Skip to main content link */
+.skip-to-main {
+  position: absolute;
+  left: -9999px;
+  z-index: 999;
+  padding: 1rem;
+  background: #facc15;
+  color: #000;
+  font-weight: bold;
+}
+
+.skip-to-main:focus {
+  left: 50%;
+  transform: translateX(-50%);
+  top: 1rem;
+}

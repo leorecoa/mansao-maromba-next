@@ -47,8 +47,9 @@ export default function CartModal({ isOpen, onClose, activeTheme }: CartModalPro
           <button
             onClick={onClose}
             className="p-2 rounded-full hover:bg-white/5 transition-colors"
+            aria-label="Fechar carrinho"
           >
-            <X size={24} />
+            <X size={24} aria-hidden="true" />
           </button>
         </div>
 
@@ -98,21 +99,23 @@ export default function CartModal({ isOpen, onClose, activeTheme }: CartModalPro
 
                   <div className="flex justify-between items-end">
                     {/* Quantity controls */}
-                    <div className="flex items-center gap-3 bg-white/5 rounded-lg px-2 py-1">
+                    <div className="flex items-center gap-3 bg-white/5 rounded-lg px-2 py-1" role="group" aria-label="Controle de quantidade">
                       <button
                         onClick={() => updateQuantity(item.id, item.quantity - 1)}
                         className="p-1 hover:text-white/70 transition-colors"
+                        aria-label="Diminuir quantidade"
                       >
-                        <Minus size={14} />
+                        <Minus size={14} aria-hidden="true" />
                       </button>
-                      <span className="font-bold text-sm min-w-[20px] text-center">
+                      <span className="font-bold text-sm min-w-[20px] text-center" aria-live="polite">
                         {item.quantity}
                       </span>
                       <button
                         onClick={() => updateQuantity(item.id, item.quantity + 1)}
                         className="p-1 hover:text-white/70 transition-colors"
+                        aria-label="Aumentar quantidade"
                       >
-                        <Plus size={14} />
+                        <Plus size={14} aria-hidden="true" />
                       </button>
                     </div>
 
@@ -130,8 +133,9 @@ export default function CartModal({ isOpen, onClose, activeTheme }: CartModalPro
                 <button
                   onClick={() => removeItem(item.id)}
                   className="absolute top-2 right-2 text-red-500/40 hover:text-red-500 transition-colors"
+                  aria-label={`Remover ${item.name} do carrinho`}
                 >
-                  <Trash2 size={16} />
+                  <Trash2 size={16} aria-hidden="true" />
                 </button>
               </motion.div>
             ))
@@ -158,8 +162,9 @@ export default function CartModal({ isOpen, onClose, activeTheme }: CartModalPro
                 color: '#000',
                 boxShadow: `0 10px 40px ${activeTheme.glow}80`,
               }}
+              aria-label="Finalizar pedido"
             >
-              <CreditCard size={20} />
+              <CreditCard size={20} aria-hidden="true" />
               Finalizar Pedido
             </button>
           </div>
