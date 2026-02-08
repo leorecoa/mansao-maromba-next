@@ -1,11 +1,11 @@
-import type { Product } from '@/app/types';
+import type { Product } from '@/app/types'
 
 export const PRODUCTS: Product[] = [
   {
     id: '1',
     name: 'Combo Tigrinho',
     description: 'MANGA + MARACUJÁ. ENERGIA INTENSA QUE INCENDEIA A NOITE.',
-    price: 89.90,
+    price: 89.9,
     image: '/images/mansao-maromba.png',
     volume: '1L',
     type: 'Cocktail Alcoólico Gaseificado',
@@ -15,13 +15,13 @@ export const PRODUCTS: Product[] = [
       glow: 'rgba(255, 0, 0, 0.8)',
       text: '#FFFFFF',
       bg: 'linear-gradient(180deg, #1a0000 0%, #000000 100%)',
-    }
+    },
   },
   {
     id: '2',
     name: 'Double Darkness',
     description: 'PRETO FOSCO. MISTÉRIO E ELEGÂNCIA PARA O ROLÊ URBANO.',
-    price: 99.90,
+    price: 99.9,
     image: '/images/mansao-maromba1.png',
     volume: '1L',
     type: 'Cocktail Alcoólico Gaseificado',
@@ -31,13 +31,13 @@ export const PRODUCTS: Product[] = [
       glow: 'rgba(100, 100, 100, 0.3)',
       text: '#EEEEEE',
       bg: 'linear-gradient(180deg, #0d0d0d 0%, #000000 100%)',
-    }
+    },
   },
   {
     id: '3',
     name: 'Combo Pink',
     description: 'VIBE NEON. ATITUDE QUE BRILHA NO ESCURO DO CLUB.',
-    price: 94.90,
+    price: 94.9,
     image: '/images/mansao-maromba2.png',
     volume: '1L',
     type: 'Cocktail Alcoólico Gaseificado',
@@ -47,13 +47,13 @@ export const PRODUCTS: Product[] = [
       glow: 'rgba(255, 0, 255, 0.6)',
       text: '#FFFFFF',
       bg: 'linear-gradient(180deg, #150015 0%, #000000 100%)',
-    }
+    },
   },
   {
     id: '4',
     name: 'Vodka Combo',
     description: 'AZUL E ROSA. O EQUILÍBRIO PERFEITO ENTRE GELO E FOGO.',
-    price: 84.90,
+    price: 84.9,
     image: '/images/mansao-maromba3.png',
     volume: '1L',
     type: 'Cocktail Alcoólico Gaseificado',
@@ -63,6 +63,6 @@ export const PRODUCTS: Product[] = [
       glow: 'rgba(0, 240, 255, 0.5)',
       text: '#FFFFFF',
       bg: 'linear-gradient(180deg, #001012 0%, #000000 100%)',
-    }
-  }
-];
+    },
+  },
+]

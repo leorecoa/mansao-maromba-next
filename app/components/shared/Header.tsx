@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Menu, X, ShoppingCart } from 'lucide-react'
 import { useCart } from '@/app/contexts/CartContext'
 import { NAVIGATION } from '@/app/lib/constants'
+import Image from 'next/image'
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -14,9 +15,22 @@ export default function Header() {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <div className="flex-shrink-0">
-            <h1 className="text-2xl font-bold text-glow" style={{ color: 'var(--primary, #facc15)' }}>
-              Mansão Maromba
-            </h1>
+            <a href="#hero" className="flex items-center gap-3">
+              <div className="relative w-10 h-10">
+                <Image
+                  src="https://i.imgur.com/2CMQ6GJ.png"
+                  alt="Mansão Maromba Logo"
+                  fill
+                  className="object-contain"
+                  style={{
+                    filter: 'contrast(1.2) brightness(1.1) saturate(1.3) drop-shadow(0 0 8px var(--primary, #facc15))',
+                  }}
+                />
+              </div>
+              <h1 className="text-xl font-black tracking-tighter uppercase text-glow" style={{ color: 'var(--primary, #facc15)' }}>
+                MANSÃO MAROMBA
+              </h1>
+            </a>
           </div>
 
           <nav className="hidden md:flex items-center space-x-8">

@@ -1,98 +1,79 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import { Zap, Target, Users, Award } from 'lucide-react'
+import Image from 'next/image'
 
-const features = [
-  {
-    icon: Zap,
-    title: 'Energia Máxima',
-    description: 'Fórmulas exclusivas para noites intensas'
-  },
-  {
-    icon: Target,
-    title: 'Precisão',
-    description: 'Cada combo desenvolvido para um momento específico'
-  },
-  {
-    icon: Users,
-    title: 'Comunidade',
-    description: 'Mais de 10k marombers satisfeitos'
-  },
-  {
-    icon: Award,
-    title: 'Qualidade Premium',
-    description: 'Ingredientes selecionados e processo artesanal'
+interface AboutSectionProps {
+  activeTheme: {
+    primary: string
+    glow: string
   }
-]
+}
 
-export default function AboutSection() {
+export default function AboutSection({ activeTheme }: AboutSectionProps) {
   return (
-    <section id="sobre" className="py-20 relative">
-      <div className="container mx-auto px-4">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          {/* Text Content */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            className="space-y-8"
-          >
-            <div>
-              <h2 className="text-4xl md:text-6xl font-bold mb-6">
-                <span className="text-white">A Casa dos</span>
-                <br />
-                <span className="text-glow" style={{ color: 'var(--primary, #facc15)' }}>
-                  Monstros
-                </span>
-              </h2>
-              <p className="text-xl text-gray-300 leading-relaxed">
-                Na Mansão Maromba, cada combo é uma experiência única. 
-                Desenvolvemos bebidas que combinam sabor, energia e atitude 
-                para quem vive a noite com intensidade máxima.
-              </p>
-            </div>
+    <section id="about" className="py-24 px-6 bg-[#050505] relative overflow-hidden">
+      {/* Decorative Text */}
+      <div className="absolute top-1/2 left-0 -translate-y-1/2 text-[15vw] font-black opacity-[0.02] whitespace-nowrap select-none pointer-events-none">
+        MAROMBA MANSAO MAROMBA MANSAO
+      </div>
 
-            <div className="space-y-6">
-              <h3 className="text-2xl font-bold text-white">Nossa Filosofia</h3>
-              <p className="text-gray-300">
-                Acreditamos que cada noite merece ser épica. Por isso, criamos 
-                combos que não são apenas bebidas, mas experiências sensoriais 
-                completas que elevam seu rolê a outro nível.
-              </p>
-            </div>
-          </motion.div>
-
-          {/* Features Grid */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="grid grid-cols-2 gap-6"
+      <div className="container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center relative z-10">
+        <div className="relative group">
+          <div className="rounded-3xl overflow-hidden grayscale hover:grayscale-0 transition-all duration-700">
+            <Image
+              src="https://picsum.photos/800/600?random=10"
+              alt="Nightlife vibe"
+              width={800}
+              height={600}
+              className="w-full h-[500px] object-cover"
+            />
+          </div>
+          <div
+            className="absolute -bottom-6 -right-6 backdrop-blur-xl bg-white/5 p-8 rounded-2xl max-w-[250px] border border-white/5"
+            style={{ borderLeft: `4px solid ${activeTheme.primary}` }}
           >
-            {features.map((feature, index) => (
-              <motion.div
-                key={feature.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="glass-morphism rounded-xl p-6 text-center group hover:scale-105 transition-transform"
-              >
-                <div className="mb-4">
-                  <feature.icon 
-                    className="w-8 h-8 mx-auto group-hover:scale-110 transition-transform" 
-                    style={{ color: 'var(--primary, #facc15)' }}
-                  />
-                </div>
-                <h4 className="text-lg font-bold text-white mb-2">
-                  {feature.title}
-                </h4>
-                <p className="text-sm text-gray-300">
-                  {feature.description}
-                </p>
-              </motion.div>
-            ))}
-          </motion.div>
+            <p className="text-sm font-bold uppercase tracking-widest leading-relaxed">
+              Direto do coração de São Paulo para o seu copo.
+            </p>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-8">
+          <div>
+            <span
+              className="text-xs font-bold uppercase tracking-[0.3em] mb-4 block"
+              style={{ color: activeTheme.primary }}
+            >
+              Institucional
+            </span>
+            <h2 className="text-5xl md:text-7xl font-black leading-tight">
+              MUITO MAIS QUE UM DEPÓSITO.
+            </h2>
+          </div>
+
+          <div className="space-y-6 text-gray-400 text-lg">
+            <p>
+              A <strong className="text-white">Mansão Maromba</strong> é um depósito digital de bebidas focado em combos exclusivos, energia máxima e experiência diferenciada.
+            </p>
+            <p>
+              Nascemos da necessidade de oferecer algo além do básico. Nossos combos são pensados para elevar o nível da sua noite, com ingredientes premium e visual marcante.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="backdrop-blur-xl bg-white/5 p-6 rounded-2xl border border-white/5">
+              <span className="text-3xl font-bold block mb-1">24/7</span>
+              <span className="text-xs text-gray-500 uppercase tracking-widest">
+                Pronto pro Rolê
+              </span>
+            </div>
+            <div className="backdrop-blur-xl bg-white/5 p-6 rounded-2xl border border-white/5">
+              <span className="text-3xl font-bold block mb-1">TOP 1</span>
+              <span className="text-xs text-gray-500 uppercase tracking-widest">
+                Combos SP
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </section>

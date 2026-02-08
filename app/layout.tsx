@@ -11,6 +11,16 @@ export const metadata: Metadata = {
   title: 'Mansão Maromba - Depósito Digital Premium',
   description: 'Depósito digital de bebidas com combos exclusivos, energia máxima e experiência diferenciada.',
   keywords: 'bebidas, cocktails, whisky, vodka, nightlife, sp, mansão maromba',
+  icons: {
+    icon: '/images/logo.png',
+    shortcut: '/images/logo.png',
+    apple: '/images/logo.png',
+  },
+  openGraph: {
+    title: 'Mansão Maromba - Depósito Digital Premium',
+    description: 'O depósito digital mais brabo de São Paulo. Experiência premium, combos exclusivos e entrega veloz.',
+    images: ['/images/logo.png'],
+  },
 }
 
 export default function RootLayout({
